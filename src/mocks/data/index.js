@@ -1,0 +1,58 @@
+export const results = [
+  {
+    topic: 'Chord Recognition',
+    app: 1,
+    time: 12,
+    questions: 3,
+    marks: 1,
+    maxMarks: 2,
+    levels: [
+      {
+        level: 'Level 1',
+        syllabus: 'VCE Music Performance',
+        syllabusId: 24,
+        time: 2,
+        questions: 2,
+        marks: 1,
+        maxMarks: 2,
+      },
+      {
+        level: 'Level 2',
+        syllabus: 'Complete Syllabus',
+        syllabusId: 15,
+        time: 10,
+        questions: 2,
+        marks: 1,
+        maxMarks: 2,
+      },
+    ],
+  },
+  {
+    topic: 'Scales',
+    app: 2,
+    time: 12,
+    questions: 3,
+    marks: 1,
+    maxMarks: 2,
+    levels: [
+      {
+        level: 'Level 1',
+        syllabus: 'VCE Music Performance',
+        syllabusId: 24,
+        time: 2,
+        questions: 2,
+        marks: 1,
+        maxMarks: 2,
+      },
+      {
+        level: 'Level 2',
+        syllabus: 'Complete Syllabus',
+        syllabusId: 15,
+        time: 10,
+        questions: 2,
+        marks: 1,
+        maxMarks: 2,
+      },
+    ],
+  },
+];
