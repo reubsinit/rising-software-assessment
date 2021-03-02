@@ -1,0 +1,23 @@
+{
+  "// EsLint format on save (using Prettier)": 1,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "eslint.validate": ["vue", "javascript"],
+
+  "// *css validation done by Stylelint, prevent built ins": 1,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+
+  "// Prettier formats documents not formatted by EsLint (using Prettier)": 1,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "vetur.format.enable": false,
+
+  "vetur.validation.template": false
+}
