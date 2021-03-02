@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <assessment-list-item :assessment="overallScore" />
+      <assessment-list-item :assessment="overallScore" summary />
     </v-col>
     <v-col v-for="(assessment, i) in assessments" :key="i" cols="12">
       <assessment-list-item :assessment="assessment" />

@@ -1,5 +1,6 @@
 <template>
   <v-card
+    :color="summary ? 'grey lighten-2' : 'white'"
     :flat="level"
     :class="['result-list-item', level ? 'pa-0 pt-4 ml-12' : 'pa-4']"
   >
@@ -67,6 +68,11 @@ export default {
     assessment: {
       type: Object,
       required: true,
+    },
+    summary: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     level: {
       type: Boolean,
