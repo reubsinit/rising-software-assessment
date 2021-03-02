@@ -1,55 +1,54 @@
 <template>
-  <v-card v-bind="$attrs">
-    <v-card-title>
-      <v-row no-gutters justify="space-between">
-        <v-col cols="auto">
+  <v-card
+    :flat="level"
+    :class="['result-list-item', level ? 'pa-0 ml-12' : 'pa-4']"
+  >
+    <v-row>
+      <v-col cols="12" class="d-flex justify-space-between">
+        <span class="text-h4">
           {{ result.topic || result.level }}
-        </v-col>
-        <v-col v-if="hasLevels" cols="auto">
-          <v-icon @click="expanded = !expanded">
+        </span>
+        <div>
+          <v-icon v-if="hasLevels" @click="expanded = !expanded">
             {{
               expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_left'
             }}
           </v-icon>
-        </v-col>
-      </v-row>
-    </v-card-title>
-    <v-card-subtitle class="pb-0">
-      <v-row no-gutters justify="space-between">
-        <v-col cols="auto">
-          {{ questionText }}, {{ timeText }}
-        </v-col>
-        <v-col cols="auto">
-          {{ result.marks }}/{{ result.maxMarks }}
-        </v-col>
-      </v-row>
-    </v-card-subtitle>
-    <v-card-text class="pt-0">
-      <v-row no-gutters>
-        <v-col class="d-flex align-center">
-          <v-progress-linear
-            :value="progressPercentage"
-            height="10"
-          ></v-progress-linear>
-        </v-col>
-        <v-col cols="1" class="text-right text-h6">
-          {{ progressPercentage }}%
-        </v-col>
-      </v-row>
-      <v-row no-gutters v-if="expanded">
-        <v-col
-          cols="12"
-          v-for="(result, i) in result.levels"
-          :key="i"
-        >
-          <result-list-item
-            :result="result"
-            flat
-            class="ml-4 mr-n4"
-          />
-        </v-col>
-      </v-row>
-    </v-card-text>
+        </div>
+      </v-col>
+      <v-col cols="12" class="d-flex justify-space-between">
+        <span> {{ questionText }}, {{ timeText }} </span>
+        <span> {{ result.marks }}/{{ result.maxMarks }} </span>
+      </v-col>
+      <v-col cols="12">
+        <v-row no-gutters>
+          <v-col class="d-flex align-center">
+            <v-progress-linear
+              :value="progressPercentage"
+              height="10"
+            />
+          </v-col>
+          <v-col
+            cols="1"
+            class="text-right text-h5 font-weight-medium"
+          >
+            <span> {{ progressPercentage }}% </span>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col cols="12" v-if="expanded">
+        <v-divider />
+        <v-row no-gutters>
+          <v-col
+            cols="12"
+            v-for="(result, i) in result.levels"
+            :key="i"
+          >
+            <result-list-item :result="result" level />
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
@@ -62,6 +61,11 @@ export default {
     result: {
       type: Object,
       required: true,
+    },
+    level: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
