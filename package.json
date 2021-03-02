@@ -14,6 +14,7 @@
     "axios": "^0.20.0",
     "core-js": "^3.7.0",
     "date-fns": "^2.15.0",
+    "pluralize": "^8.0.0",
     "stylelint-no-unsupported-browser-features": "^4.1.4",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.5",
