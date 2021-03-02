@@ -1,12 +1,12 @@
 <template>
   <v-card
     :flat="level"
-    :class="['result-list-item', level ? 'pa-0 ml-12' : 'pa-4']"
+    :class="['result-list-item', level ? 'pa-0 pt-4 ml-12' : 'pa-4']"
   >
     <v-row>
-      <v-col cols="12" class="d-flex justify-space-between">
+      <v-col cols="12" class="d-flex justify-space-between py-1">
         <span class="text-h4">
-          {{ result.topic || result.level }}
+          {{ assessment.topic || assessment.level }}
         </span>
         <div>
           <v-icon v-if="hasLevels" @click="expanded = !expanded">
@@ -16,11 +16,16 @@
           </v-icon>
         </div>
       </v-col>
-      <v-col cols="12" class="d-flex justify-space-between">
+      <v-col
+        cols="12"
+        class="d-flex justify-space-between text-subtitle-1 py-1"
+      >
         <span> {{ questionText }}, {{ timeText }} </span>
-        <span> {{ result.marks }}/{{ result.maxMarks }} </span>
+        <span>
+          {{ assessment.marks }}/{{ assessment.maxMarks }}
+        </span>
       </v-col>
-      <v-col cols="12">
+      <v-col cols="12" class="py-1">
         <v-row no-gutters>
           <v-col class="d-flex align-center">
             <v-progress-linear
@@ -41,10 +46,10 @@
         <v-row no-gutters>
           <v-col
             cols="12"
-            v-for="(result, i) in result.levels"
+            v-for="(assessment, i) in assessment.levels"
             :key="i"
           >
-            <result-list-item :result="result" level />
+            <assessment-list-item :assessment="assessment" level />
           </v-col>
         </v-row>
       </v-col>
@@ -56,9 +61,10 @@
 import pluralize from 'pluralize';
 
 export default {
-  name: 'ResultListItem',
+  // Must provide the name property for recursive components
+  name: 'AssessmentListItem',
   props: {
-    result: {
+    assessment: {
       type: Object,
       required: true,
     },
@@ -77,19 +83,19 @@ export default {
   computed: {
     progressPercentage() {
       return Math.floor(
-        (this.result.marks / this.result.maxMarks) * 100
+        (this.assessment.marks / this.assessment.maxMarks) * 100
       );
     },
     questionText() {
-      return `${this.result.questions} ${pluralize(
+      return `${this.assessment.questions} ${pluralize(
         'Question',
-        this.result.questions
+        this.assessment.questions
       )}`;
     },
     timeText() {
       let text = '';
-      const hours = Math.floor(this.result.time / 60);
-      const minutes = this.result.time % 60;
+      const hours = Math.floor(this.assessment.minutes / 60);
+      const minutes = this.assessment.minutes % 60;
 
       if (hours > 0) {
         text += `${hours} ${pluralize('hour', hours)}`;
@@ -104,8 +110,8 @@ export default {
     },
     hasLevels() {
       return (
-        Array.isArray(this.result.levels) &&
-        this.result.levels.length > 0
+        Array.isArray(this.assessment.levels) &&
+        this.assessment.levels.length > 0
       );
     },
   },
