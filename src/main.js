@@ -5,6 +5,8 @@ import vuetify from '@/plugins/vuetify';
 
 Vue.config.productionTip = false;
 
+axios.defaults.baseURL = 'https://dbtest1.risingsoftware.com/api/v3/';
+
 new Vue({
   vuetify,
   axios,
