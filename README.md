@@ -24,3 +24,4 @@ Change the url of any of the http requests in order to have the server return 40
 
 - [ ] perform self review and tidy up where appropriate
 - [ ] wire up custom date range to filter assessment results accordingly
+- [ ] remove `,` from the end of the questions text in AssessmentListItem if an assessment has no time
