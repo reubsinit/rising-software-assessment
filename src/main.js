@@ -5,8 +5,7 @@ import vuetify from '@/plugins/vuetify';
 
 Vue.config.productionTip = false;
 
-// TODO: Move this into a vue env variable
-axios.defaults.baseURL = 'https://dbtest1.risingsoftware.com/api/v3/';
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
 new Vue({
   vuetify,
