@@ -1,11 +1,24 @@
 <template>
   <v-row>
-    <v-col cols="12">
-      <assessment-list-item :assessment="overallScore" summary />
-    </v-col>
-    <v-col v-for="(assessment, i) in assessments" :key="i" cols="12">
-      <assessment-list-item :assessment="assessment" />
-    </v-col>
+    <template v-if="hasAssessments">
+      <v-col cols="12">
+        <assessment-list-item :assessment="overallScore" summary />
+      </v-col>
+      <v-col
+        v-for="(assessment, i) in assessments"
+        :key="i"
+        cols="12"
+      >
+        <assessment-list-item :assessment="assessment" />
+      </v-col>
+    </template>
+    <template>
+      <v-col cols="12">
+        <v-card>
+          <v-card-title> No assessment results found </v-card-title>
+        </v-card>
+      </v-col>
+    </template>
   </v-row>
 </template>
 
@@ -33,6 +46,9 @@ export default {
       );
       result.topic = 'Overall Score';
       return result;
+    },
+    hasAssessments() {
+      return this.assessments.length > 0;
     },
   },
 };
