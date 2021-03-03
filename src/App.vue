@@ -103,6 +103,11 @@ export default {
         this.dateFilter.to
       );
     },
+    defaultFilter() {
+      return this.dateFilterOpts.find(
+        (opt) => opt.defaultForPracticeResults
+      );
+    },
   },
   created() {
     Promise.all([
@@ -112,9 +117,7 @@ export default {
       .then((responses) => {
         const [dateFilterOptsRes, assessmentDataRes] = responses;
         this.dateFilterOpts = dateFilterOptsRes.data;
-        this.dateFilter = this.dateFilterOpts.find(
-          (opt) => opt.defaultForPracticeResults
-        );
+        this.dateFilter = this.defaultFilter;
         this.assessmentData = assessmentDataRes.data.results;
       })
       .catch((err) => (this.error = err.message));
@@ -130,12 +133,13 @@ export default {
           )
           .then((res) => {
             this.assessmentData = res.data.results;
-            // clear the custom filter parameters
-            if (this.hasCustomFilter) {
-              Object.assign(this.dateFilter, { from: '', to: '' });
-              this.customDateRange = [];
-            }
           });
+        if (this.hasCustomFilter) {
+          // clear the custom filter parameters to preserve
+          // integrity of data coming from server
+          Object.assign(this.dateFilter, { from: '', to: '' });
+          this.customDateRange = [];
+        }
       } else {
         this.showDateRangePicker = true;
       }
@@ -143,12 +147,11 @@ export default {
     handleCancelCustomDateRange() {
       this.customDateRange = [];
       this.showDateRangePicker = false;
-      this.dateFilter = this.dateFilterOpts.find(
-        (opt) => opt.defaultForPracticeResults
-      );
+      this.dateFilter = this.defaultFilter;
     },
     handleConfirmCustomDateRange() {
       if (this.customDateRange.length != 2)
+        // user didn't select a valid range
         this.handleCancelCustomDateRange();
       else {
         // have to enforce the order here as the first date
