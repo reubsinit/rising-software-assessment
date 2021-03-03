@@ -38,6 +38,30 @@
           </v-card>
         </v-row>
       </v-container>
+      <v-dialog
+        ref="dialog"
+        v-model="showDateRangePicker"
+        persistent
+        width="290px"
+      >
+        <v-date-picker v-model="customDateRange" scrollable range>
+          <v-spacer />
+          <v-btn
+            text
+            color="primary"
+            @click="showDateRangePicker = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            text
+            color="primary"
+            @click="showDateRangePicker = false"
+          >
+            OK
+          </v-btn>
+        </v-date-picker>
+      </v-dialog>
     </v-main>
   </v-app>
 </template>
@@ -53,6 +77,7 @@ export default {
     return {
       dateFilterOpts: null,
       dateFilter: null,
+      showDateRangePicker: false,
       assessmentData: null,
       error: null,
     };
@@ -61,6 +86,13 @@ export default {
     dataLoaded() {
       return (
         this.dateFilterOpts != null && this.assessmentData != null
+      );
+    },
+    isCustomDateFilter() {
+      return (
+        this.dateFilter.from == '' &&
+        this.dateFilter.to == '' &&
+        !this.dateFilter.defaultForPracticeResults
       );
     },
   },
@@ -81,13 +113,17 @@ export default {
   },
   methods: {
     handleDateFilterChange() {
-      axios
-        .get(
-          `result/practice?from=${this.dateFilter.from}&to=${this.dateFilter.to}`
-        )
-        .then((res) => {
-          this.assessmentData = res.data.results;
-        });
+      if (!this.isCustomDateFilter) {
+        axios
+          .get(
+            `result/practice?from=${this.dateFilter.from}&to=${this.dateFilter.to}`
+          )
+          .then((res) => {
+            this.assessmentData = res.data.results;
+          });
+      } else {
+        this.showDateRangePicker = true;
+      }
     },
   },
 };

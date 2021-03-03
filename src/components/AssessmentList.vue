@@ -12,9 +12,9 @@
         <assessment-list-item :assessment="assessment" />
       </v-col>
     </template>
-    <template>
+    <template v-else>
       <v-col cols="12">
-        <v-card>
+        <v-card class="grey--text text--darken-2">
           <v-card-title> No assessment results found </v-card-title>
         </v-card>
       </v-col>
