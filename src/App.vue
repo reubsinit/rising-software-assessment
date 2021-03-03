@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-main class="grey lighten-4">
-      <v-container fluid>
+      <v-container class="content-container mt-16" fluid>
         <v-row v-if="dataLoaded" justify="center">
-          <v-col cols="8">
+          <v-col cols="12">
             <v-card>
               <v-card-text>
                 <v-row no-gutters justify="space-between">
@@ -25,8 +25,8 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="8">
-            <assessment-list :assessments="filteredAssessments" />
+          <v-col cols="12">
+            <assessment-list :assessments="assessmentData" />
           </v-col>
         </v-row>
       </v-container>
@@ -55,11 +55,6 @@ export default {
         this.dateFilterOpts != null && this.assessmentData != null
       );
     },
-    filteredAssessments() {
-      if (this.dateFilter.defaultForPracticeResults)
-        return this.assessmentData;
-      else return this.assessmentData;
-    },
   },
   created() {
     Promise.all([
@@ -78,8 +73,19 @@ export default {
   },
   methods: {
     handleDateFilterChange() {
-      // TODO: implement
+      axios
+        .get(
+          `result/practice?from=${this.dateFilter.from}&to=${this.dateFilter.to}`
+        )
+        .then((res) => {
+          this.assessmentData = res.data.results;
+        });
     },
   },
 };
 </script>
+<style scoped lang="scss">
+.content-container {
+  max-width: 65%;
+}
+</style>
