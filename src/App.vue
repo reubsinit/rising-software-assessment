@@ -44,19 +44,19 @@
         persistent
         width="290px"
       >
-        <v-date-picker scrollable range>
+        <v-date-picker v-model="customDateRange" scrollable range>
           <v-spacer />
           <v-btn
             text
             color="primary"
-            @click="showDateRangePicker = false"
+            @click="handleCancelCustomDateRange"
           >
             Cancel
           </v-btn>
           <v-btn
             text
             color="primary"
-            @click="showDateRangePicker = false"
+            @click="handleConfirmCustomDateRange"
           >
             OK
           </v-btn>
@@ -78,6 +78,7 @@ export default {
       dateFilterOpts: null,
       dateFilter: null,
       showDateRangePicker: false,
+      customDateRange: [],
       assessmentData: null,
       error: null,
     };
@@ -88,11 +89,18 @@ export default {
         this.dateFilterOpts != null && this.assessmentData != null
       );
     },
-    isCustomDateFilter() {
+    preparingCustomDateFilter() {
       return (
         this.dateFilter.from == '' &&
         this.dateFilter.to == '' &&
         !this.dateFilter.defaultForPracticeResults
+      );
+    },
+    hasCustomFilter() {
+      return (
+        this.customDateRange.length == 2 &&
+        this.dateFilter.from &&
+        this.dateFilter.to
       );
     },
   },
@@ -113,16 +121,45 @@ export default {
   },
   methods: {
     handleDateFilterChange() {
-      if (!this.isCustomDateFilter) {
+      // negate here as it's likely (subjective) that the user will
+      // filter with one of the defined ranges over a custom one
+      if (!this.preparingCustomDateFilter) {
         axios
           .get(
             `result/practice?from=${this.dateFilter.from}&to=${this.dateFilter.to}`
           )
           .then((res) => {
             this.assessmentData = res.data.results;
+            // clear the custom filter parameters
+            if (this.hasCustomFilter) {
+              Object.assign(this.dateFilter, { from: '', to: '' });
+              this.customDateRange = [];
+            }
           });
       } else {
         this.showDateRangePicker = true;
+      }
+    },
+    handleCancelCustomDateRange() {
+      this.customDateRange = [];
+      this.showDateRangePicker = false;
+      this.dateFilter = this.dateFilterOpts.find(
+        (opt) => opt.defaultForPracticeResults
+      );
+    },
+    handleConfirmCustomDateRange() {
+      if (this.customDateRange.length != 2)
+        this.handleCancelCustomDateRange();
+      else {
+        // have to enforce the order here as the first date
+        // you select in v-date-picker is the from value, which means
+        // you can end up with something like from: 2021-03-03 to: 2021-02-28
+        const [from, to] = this.customDateRange.sort(
+          (dateA, dateB) => new Date(dateA) - new Date(dateB)
+        );
+        Object.assign(this.dateFilter, { from, to });
+        this.handleDateFilterChange();
+        this.showDateRangePicker = false;
       }
     },
   },
