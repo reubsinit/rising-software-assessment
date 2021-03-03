@@ -16,6 +16,10 @@ I developed the components using a component driven development approach and onc
 
 `npm run serve`
 
+## error state
+
+Change the url of any of the http requests in order to have the server return 404 to see the error state
+
 ## todo
 
 - [ ] perform self review and tidy up where appropriate
