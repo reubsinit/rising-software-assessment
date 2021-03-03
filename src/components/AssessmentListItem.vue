@@ -1,9 +1,5 @@
 <template>
-  <v-card
-    :color="summary ? 'grey lighten-2' : 'white'"
-    :flat="level"
-    :class="['result-list-item', level ? 'pa-0 pt-4 ml-12' : 'pa-4']"
-  >
+  <v-card :color="cardColor" :flat="level" :class="cardClassList">
     <v-row class="grey--text text--darken-2">
       <v-col cols="12" class="d-flex justify-space-between py-1">
         <span class="text-h4">
@@ -21,7 +17,9 @@
         cols="12"
         class="d-flex justify-space-between text-subtitle-1 py-1"
       >
-        <span> {{ questionText }}, {{ timeText }} </span>
+        <span>
+          {{ questionText }}{{ hasTime ? `, ${timeText}` : '' }}
+        </span>
         <span>
           {{ assessment.marks }}/{{ assessment.maxMarks }}
         </span>
@@ -88,8 +86,19 @@ export default {
       expanded: false,
     };
   },
-  // TODO: tidy these properties up
   computed: {
+    cardColor() {
+      return this.summary ? 'grey lighten-2' : 'white';
+    },
+    cardClassList() {
+      return [
+        'result-list-item',
+        this.level ? 'pa-0 pt-4 ml-12' : 'pa-4',
+      ];
+    },
+    hasTime() {
+      return this.assessment.minutes > 0;
+    },
     progressPercentage() {
       return Math.floor(
         (this.assessment.marks / this.assessment.maxMarks) * 100

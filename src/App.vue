@@ -46,18 +46,10 @@
       >
         <v-date-picker v-model="customDateRange" scrollable range>
           <v-spacer />
-          <v-btn
-            text
-            color="primary"
-            @click="handleCancelCustomDateRange"
-          >
+          <v-btn text color="primary" @click="cancelCustomDateRange">
             Cancel
           </v-btn>
-          <v-btn
-            text
-            color="primary"
-            @click="handleConfirmCustomDateRange"
-          >
+          <v-btn text color="primary" @click="confirmCustomDateRange">
             OK
           </v-btn>
         </v-date-picker>
@@ -144,15 +136,15 @@ export default {
         this.showDateRangePicker = true;
       }
     },
-    handleCancelCustomDateRange() {
+    cancelCustomDateRange() {
       this.customDateRange = [];
       this.showDateRangePicker = false;
       this.dateFilter = this.defaultFilter;
     },
-    handleConfirmCustomDateRange() {
+    confirmCustomDateRange() {
       if (this.customDateRange.length != 2)
         // user didn't select a valid range
-        this.handleCancelCustomDateRange();
+        this.cancelCustomDateRange();
       else {
         // have to enforce the order here as the first date
         // you select in v-date-picker is the from value, which means
