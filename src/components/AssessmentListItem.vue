@@ -4,7 +4,7 @@
     :flat="level"
     :class="['result-list-item', level ? 'pa-0 pt-4 ml-12' : 'pa-4']"
   >
-    <v-row>
+    <v-row class="grey--text text--darken-2">
       <v-col cols="12" class="d-flex justify-space-between py-1">
         <span class="text-h4">
           {{ assessment.topic || assessment.level }}
@@ -42,15 +42,18 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" v-if="expanded">
+      <v-col v-if="expanded" cols="12">
         <v-divider />
         <v-row no-gutters>
           <v-col
-            cols="12"
-            v-for="(assessment, i) in assessment.levels"
+            v-for="(assessmentLevel, i) in assessment.levels"
             :key="i"
+            cols="12"
           >
-            <assessment-list-item :assessment="assessment" level />
+            <assessment-list-item
+              :assessment="assessmentLevel"
+              level
+            />
           </v-col>
         </v-row>
       </v-col>
