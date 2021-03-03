@@ -44,7 +44,7 @@
         persistent
         width="290px"
       >
-        <v-date-picker v-model="customDateRange" scrollable range>
+        <v-date-picker scrollable range>
           <v-spacer />
           <v-btn
             text
