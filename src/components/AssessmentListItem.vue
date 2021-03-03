@@ -1,7 +1,7 @@
 <template>
   <v-card :color="cardColor" :flat="level" :class="cardClassList">
     <v-row class="grey--text text--darken-2">
-      <v-col cols="12" class="d-flex justify-space-between py-1">
+      <v-col cols="12" class="assessment-list-item__title">
         <span class="text-h4">
           {{ assessment.topic || assessment.level }}
         </span>
@@ -15,7 +15,7 @@
       </v-col>
       <v-col
         cols="12"
-        class="d-flex justify-space-between text-subtitle-1 py-1"
+        class="assessment-list-item__details text-subtitle-1"
       >
         <span>
           {{ questionText }}{{ hasTime ? `, ${timeText}` : '' }}
@@ -24,9 +24,9 @@
           {{ assessment.marks }}/{{ assessment.maxMarks }}
         </span>
       </v-col>
-      <v-col cols="12" class="py-1">
+      <v-col cols="12">
         <v-row no-gutters>
-          <v-col class="d-flex align-center">
+          <v-col class="assessment-list-item__progress align-center">
             <v-progress-linear
               :value="progressPercentage"
               height="10"
@@ -92,7 +92,7 @@ export default {
     },
     cardClassList() {
       return [
-        'result-list-item',
+        'assessment-list-item',
         this.level ? 'pa-0 pt-4 ml-12' : 'pa-4',
       ];
     },
@@ -116,24 +116,35 @@ export default {
       const minutes = this.assessment.minutes % 60;
 
       if (hours > 0) {
-        text += `${hours} ${pluralize('hour', hours)}`;
+        text += `${hours} ${pluralize('hour', hours)} `;
       }
       if (minutes > 0) {
-        text += `${hours > 0 ? ' ' : ''}${minutes} ${pluralize(
-          'minute',
-          minutes
-        )}`;
+        text += `${minutes} ${pluralize('minute', minutes)}`;
       }
       return text;
     },
     hasLevels() {
       return (
-        Array.isArray(this.assessment.levels) &&
-        this.assessment.levels.length > 0
+        this.assessment.levels && this.assessment.levels.length > 0
       );
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+.assessment-list-item .col {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.assessment-list-item__title,
+.assessment-list-item__details,
+.assessment-list-item__progress {
+  display: flex;
+}
+.assessment-list-item__title,
+.assessment-list-item__details {
+  justify-content: space-between;
+}
+</style>
