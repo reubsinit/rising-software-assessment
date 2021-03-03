@@ -29,6 +29,14 @@
             <assessment-list :assessments="assessmentData" />
           </v-col>
         </v-row>
+        <v-row v-if="error" justify="center">
+          <v-card>
+            <v-card-title class="error--text">
+              Oops... Something went wrong :(
+            </v-card-title>
+            <v-card-text> Error message: {{ error }} </v-card-text>
+          </v-card>
+        </v-row>
       </v-container>
     </v-main>
   </v-app>
